@@ -19,36 +19,36 @@
                 </tr>
               </thead>
               <tbody>
-                @foreach ($stocklist as $stock)
-                <tr>
-                    <td>
-                        <div>
-                            <p>{{$stock->code}}</p>
-                        </div>
-                    </td>
-                  <td>
-                    <div class="d-flex px-2 py-1">
-                      <div>
-                        <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="mb-0 text-sm">{{$stock->name}}</h6>
-                      </div>
+               @foreach ($list as $item)
+               <tr>
+                <td>
+                    <div>
+                        <p>{{ $item->code }}</p>
                     </div>
-                  </td>
-                  <td>
-                    <p class="text-xs font-weight-bold mb-0">Rp.{{$stock->price}}</p>
-                  </td>
-                  <td class="align-middle text-center">
-                    <span class="text-secondary text-xs font-weight-bold">{{$stock->stock}}</span>
-                  </td>
-                  <td class="align-middle">
-                    <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
-                      Edit
-                    </a>
-                  </td>
-                </tr>
-                @endforeach
+                </td>
+              <td>
+                <div class="d-flex px-2 py-1">
+                  <div>
+                    <img src="../assets/img/team-3.jpg" class="avatar avatar-sm me-3" alt="user2">
+                  </div>
+                  <div class="d-flex flex-column justify-content-center">
+                    <h6 class="mb-0 text-sm">{{$item->name_produk}}</h6>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <p class="text-xs font-weight-bold mb-0">{{ $item->price }}</p>
+              </td>
+              <td class="align-middle text-center">
+                <span class="text-secondary text-xs font-weight-bold">{{$item->stock}}</span>
+              </td>
+              <td class="align-middle">
+                <a href="javascript:;" class="text-secondary font-weight-bold text-xs" data-toggle="tooltip" data-original-title="Edit user">
+                  Edit
+                </a>
+              </td>
+            </tr>
+               @endforeach
               </tbody>
             </table>
           </div>

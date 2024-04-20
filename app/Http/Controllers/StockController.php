@@ -12,8 +12,8 @@ class StockController extends Controller
 {
     public function index()
     {
-        $stockList = Produks::all();
-        return view("pages.index", compact("stockList"));
+        $list = Produks::all();
+        return view("pages.stock", compact("list"));
     }
 
     

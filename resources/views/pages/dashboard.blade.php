@@ -49,7 +49,7 @@
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="../pages/dashboard.html">
+          <a class="nav-link active" href="/dashboard">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
@@ -57,7 +57,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="../pages/tables.html">
+          <a class="nav-link " href="/stock">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-warning text-sm opacity-10"></i>
             </div>
@@ -98,6 +98,10 @@
             </div>
             <span class="nav-link-text ms-1">Profile</span>
           </a>
+          <div class="dropdown-divider"></div>
+                <a href="{{ route('auth.logout') }}"class="dropdown-item has-icon text-danger">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
         </li>
       </ul>
     </div>
