@@ -61,7 +61,7 @@ class StockController extends Controller
             "price" => $request->price,
             // "stock" => $request->stock
         ]);
-        return back()->with("success", "Berhasil merubah Produck");
+        return redirect('/stock')->with("success", "Berhasil merubah Produck");
     }
 
     public function updateStock(Request $request, $id)
@@ -76,9 +76,16 @@ class StockController extends Controller
         $stock = Produks::find($id);
         $stock->update([
             "stock" => $stock->stock + $request->stock,
-            'description' => $request->description
         ]);
+        
 
-        return back()->with("success", "Berhasil menambah Stock baru");
+        return redirect('/stock')->with("success", "Berhasil menambah Stock baru");
+    }
+
+    public function deletestock(Request $request, $id)
+    {
+        $data = Produks::findOrFail($id);
+        $data->delete();
+        return redirect('/stock');
     }
 }

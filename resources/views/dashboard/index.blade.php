@@ -35,12 +35,8 @@
                       <div class="numbers">
                         <p class="text-sm mb-0 text-uppercase font-weight-bold">Today's Users</p>
                         <h5 class="font-weight-bolder">
-                          2,300
+                          {{ $countUser }}
                         </h5>
-                        <p class="mb-0">
-                          <span class="text-success text-sm font-weight-bolder">+3%</span>
-                          since last week
-                        </p>
                       </div>
                     </div>
                     <div class="col-4 text-end">
@@ -60,12 +56,8 @@
                       <div class="numbers">
                         <p class="text-sm mb-0 text-uppercase font-weight-bold">New Clients</p>
                         <h5 class="font-weight-bolder">
-                          +3,462
+                          {{ $countStock}}
                         </h5>
-                        <p class="mb-0">
-                          <span class="text-danger text-sm font-weight-bolder">-2%</span>
-                          since last quarter
-                        </p>
                       </div>
                     </div>
                     <div class="col-4 text-end">
