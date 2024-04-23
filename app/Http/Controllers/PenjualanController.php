@@ -16,15 +16,10 @@ class PenjualanController extends Controller
     {
         return view('penjualan.index');
     }
+    
     public function form()
     {
         return view('penjualan.create');
-    }
-
-    public function detailpembelian()
-    {
-        $data = Penjualan::all();
-        return view('penjualan.index', compact('data'));
     }
 
     public function paymentHistory()
@@ -40,7 +35,6 @@ class PenjualanController extends Controller
         $products = [];
         $codes = $request->code;
         $quantitys = $request->quantity;
-        $discounts = $request->discount;
 
         foreach ($codes as $index => $code) {
             $products[] = [
@@ -65,7 +59,7 @@ class PenjualanController extends Controller
                 }
             }
             if (!$found) {
-                $errorMessages[] = $product["code"];
+                $errorMessages[] = "Produk dengan kode '" . $product["code"] . "' tidak ditemukan";
             }
         }
 
@@ -85,12 +79,13 @@ class PenjualanController extends Controller
                 "address" => $address
             ]
         ]);
-        return view("pages.penjualan.invoice", compact(
+
+        return view("penjualan.invoice", compact(
             "name",
             "phone",
             "address",
             "products",
-            "items",
+            "items"
         ));
     }
 
@@ -100,6 +95,7 @@ class PenjualanController extends Controller
         $codesToSearch = array_column($products, 'code');
         $items = Produks::whereIn('code', $codesToSearch)->get();
         $total_price = 0;
+
         foreach ($items as $item) {
             foreach ($products as $product) {
                 if ($product["code"] == $item->code) {
@@ -109,19 +105,20 @@ class PenjualanController extends Controller
             }
         }
 
-        $customers = session("pelanggan");
-        if ($customers["address"] == null) {
-            # code...
+        $customer = session("pelanggan");
+
+        if ($customer["address"] == null) {
             $customer = Pelanggans::create([
-                "customer_name" => $customers["name"],
-                "no_phone" => $customers["phone"],
+                "customer_name" => $customer["name"],
+                "no_phone" => $customer["phone"],
+            ]);
+        } else {
+            $customer = Pelanggans::create([
+                "customer_name" => $customer["name"],
+                "no_phone" => $customer["phone"],
+                "address" => $customer["address"]
             ]);
         }
-        $customer = Pelanggans::create([
-            "customer_name" => $customers["name"],
-            "no_phone" => $customers["phone"],
-            "address" => $customers["address"]
-        ]);
 
         $penjualan = Penjualan::create([
             "pelanggan_id" => $customer->id,
@@ -138,7 +135,6 @@ class PenjualanController extends Controller
                         'total_product' => $product["quantity"],
                         'subtotal' => $item->price * $product["quantity"]
                     ]);
-
 
                     $productUpdate = Produks::find($item->id);
                     $stock = $productUpdate->stock - $product["quantity"];

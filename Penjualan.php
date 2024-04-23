@@ -8,14 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Penjualan extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'sale_date',
-        'total',
-        'pelanggan_id'
+    protected $table = 'penjualans';
+    protected $fillable =[
+        'pelanggan_id',
+        'total_harga',
+        'tgl_penjualan'
     ];
 
     public function Pelanggan(){
-        return $this->belongsTo(Pelanggans::class);
+        return $this->belongsTo(Pelanggan::class);
     }
 
     public function DetailPenjualan()
@@ -24,6 +25,8 @@ class Penjualan extends Model
     }
     public function Produk()
     {
-        return $this->belongsTo(Produks::class);
+        return $this->belongsTo(Produk::class);
     }
+
+
 }

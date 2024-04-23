@@ -34,7 +34,7 @@ Route::middleware(["isLogin"])->group(function () {
     Route::get("/stock/delete/{id}", [StockController::class, "deletestock"])->name('stock.delete');
 
 
-    Route::get("/penjualan", [PenjualanController::class, "detailpembelian"])->name("penjualan");
+    Route::get("/penjualan", [PenjualanController::class, "index"])->name("penjualan");
     Route::get("/penjualan/create", [PenjualanController::class, "form"])->name("penjualan.create");
     Route::post("/penjualan/invoice", [PenjualanController::class, "createInvoice"])->name("penjualan.invoice");
     Route::post("/penjualan/payment", [PenjualanController::class, "confirmPayment"])->name("penjualan.payment");

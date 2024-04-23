@@ -8,15 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class DetailPenjualan extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'penjualan_id',
-        'produk_id',
-        'produk_total',
-        'subtotal'
-    ];
+
+    protected $table = 'detail_penjualans';
+    protected $guarded = ['$id'];
 
 
     public function Produk(){
-        return $this->belongsTo(Produks::class);
+        return $this->belongsTo(Produk::class);
     }
 }

@@ -34,7 +34,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
+                                   
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -43,25 +43,25 @@
                                                         class="avatar avatar-sm rounded-circle me-2" alt="spotify">
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{$item->name_staff}}</h6>
+                                                    <h6 class="mb-0 text-sm"></h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{$item->address}}</p>
+                                            <p class="text-sm font-weight-bold mb-0"></p>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->no_phone}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->date_sale}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->total}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
 
                                     </tr>
-                                    @endforeach
+                                   
                                 </tbody>
                             </table>
                         </div>
@@ -98,7 +98,6 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($data as $item)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
@@ -107,25 +106,24 @@
                                                         class="avatar avatar-sm rounded-circle me-2" alt="spotify">
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm">{{$item->name_staff}}</h6>
+                                                    <h6 class="mb-0 text-sm"> </h6>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0">{{$item->address}}</p>
+                                            <p class="text-sm font-weight-bold mb-0"></p>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->no_phone}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->date_sale}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold">{{$item->total}}</span>
+                                            <span class="text-xs font-weight-bold"></span>
                                         </td>
 
                                     </tr>
-                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -1,55 +1,120 @@
 @extends('pages.dashboard')
 @section('content')
-    <div class="container-fluid py-4">
-        <section class="section">
-            <div class="section-body">
-                <div class="card">
-                    <form action="{{route('user.store')}}" method="post" class="needs-validation" novalidate>
-                        @csrf
-                        <div class="card-header">
-                            <h4>Formulir Akun</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Nama Lengkap<span class="text-danger">*</span></label>
-                                    <input type="text" name="name"  class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Silahkan isi nama lengkap
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Username<span class="text-danger">*</span></label>
-                                    <input type="text" name="username"  class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Silahkan isi username
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Password<span class="text-danger">*</span></label>
-                                    <input type="password" name="password" placeholder="********" class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Silahkan isi password
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6 col-12">
-                                    <label>Role<span class="text-danger">*</span></label>
-                                    <select class="form-control" name="role" required>
-                                        <option disabled selected>Select Role</option>
-                                        <option value="petugas">Petugas</option>
-                                        <option value="administrator">Admin</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <button class="btn btn-success">Simpan</button>
-                            <a href="/user" class="btn btn-danger">Kembali</a>
-                        </div>
-                    </form>
+    <section class="section">
+        <div class="section-header">
+            <h1>Penjualan</h1>
+        </div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    <b>Success:</b>
+                    {{ session('success') }}
                 </div>
             </div>
+        @endif
+        @if (session('fail'))
+            <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                    <button class="close" data-dismiss="alert">
+                        <span>&times;</span>
+                    </button>
+                    <b>Fail:</b>
+                    Produk dengan kode
+                    @foreach (session('fail') as $code)
+                        <b>{{ $code }}</b>,
+                    @endforeach
+                    tidak tersedia
+                </div>
             </div>
-        </section>
-    </div>
+        @endif
+        <div class="section-body">
+            <form action="{{ route('penjualan.invoice') }}" method="post" class="needs-validation" novalidate>
+                @csrf
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Informasi Pelanggan:</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-md-6 col-12">
+                                <label>Nama<span class="text-danger">*</span></label>
+                                <input type="text" name="name_staff" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Silahkan isi nama!
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6 col-12">
+                                <label>No Telp<span class="text-danger">*</span></label>
+                                <input type="number" name="no_hp" class="form-control" required>
+                                <div class="invalid-feedback">
+                                    Silahkan isi nomor telepon
+                                </div>
+                            </div>
+                            <div class="form-group col-12">
+                                <label>Alamat</label>
+                                <textarea name="address" class="form-control"></textarea>
+                                <div class="invalid-feedback">
+                                    Silahkan isi alamat
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="productInputs">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row product-input">
+                                <div class="form-group col-md-4 col-12">
+                                    <label>Kode Produk<span class="text-danger">*</span></label>
+                                    <input type="text" name="code[]" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Silahkan isi kode produk
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4 col-sm-6 col-12">
+                                    <label>Kuantitas<span class="text-danger">*</span></label>
+                                    <input type="number" name="quantity[]" class="form-control total-input" required>
+                                    <div class="invalid-feedback">
+                                        Silahkan isi kuantitas
+                                    </div>
+                                </div>
+                                <div class="form-group col-12">
+                                    <button type="button" class="btn btn-danger"
+                                        onclick="removeProductInput(this)">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button type="button" class="btn btn-primary" onclick="addProductInput()">Tambah Input
+                        Produk</button>
+                    <button class="btn btn-success">Buat Invoice</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+
+
+    <script>
+        function addProductInput() {
+            var productInputs = document.getElementById('productInputs');
+            var newProductInput = productInputs.children[0].cloneNode(true);
+            var dicountInput = document.getElementById('discount');
+            productInputs.appendChild(newProductInput);
+            newProductInput.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+                discountInput.value = 0;
+            });
+        }
+
+        function removeProductInput(button) {
+            var cardBody = button.closest('.card-body');
+            cardBody.parentElement.remove();
+        }
+    </script>
 @endsection

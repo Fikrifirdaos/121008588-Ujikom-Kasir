@@ -14,9 +14,9 @@ class Pelanggans extends Model
         'no_hp'
     ]);
 
-    public function penjualan(){
-
-        return $this->hasMany(Penjualan::class);
+    public function penjualan()
+    {
+        return $this->hasOne(Penjualan::class);
     }
 
 }

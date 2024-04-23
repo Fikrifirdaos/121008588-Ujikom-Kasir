@@ -29,7 +29,7 @@
                 </div>
             @endif
             <div class="section-body">
-                <form action="{{route('penjualan.invoice')}}" method="post" class="needs-validation" novalidate>
+                <form action="{{ route('penjualan.invoice') }}" method="post" class="needs-validation" novalidate>
                     @csrf
                     <div class="card">
                         <div class="card-header">
@@ -46,16 +46,23 @@
                                 </div>
                                 <div class="form-group col-md-6 col-12">
                                     <label>No Telp<span class="text-danger">*</span></label>
-                                    <input type="number" name="no_phone" class="form-control" required>
+                                    <input type="text" name="no_hp" class="form-control" required>
                                     <div class="invalid-feedback">
                                         Silahkan isi nomor telepon
                                     </div>
                                 </div>
-                                <div class="form-group col-12">
-                                    <label>Alamat</label>
-                                    <textarea name="address" class="form-control"></textarea>
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Alamat<span class="text-danger">*</span></label>
+                                    <textarea name="address" class="form-control" required></textarea>
                                     <div class="invalid-feedback">
                                         Silahkan isi alamat
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6 col-12">
+                                    <label>Tanggal<span class="text-danger">*</span></label>
+                                    <input type="date" name="sale_date" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Silahkan isi tanggal penjualan
                                     </div>
                                 </div>
                             </div>
@@ -65,34 +72,34 @@
                         <div class="card mt-3">
                             <div class="card-body">
                                 <div class="row product-input">
-                                    <div class="form-group col-md-4 col-12">
+                                    <div class="form-group col-md-6 col-12">
                                         <label>Kode Produk<span class="text-danger">*</span></label>
-                                        <input type="text" name="code[]" class="form-control" required>
+                                        <input type="text" name="produk_id[]" class="form-control" required>
                                         <div class="invalid-feedback">
                                             Silahkan isi kode produk
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-4 col-sm-6 col-12">
+                                    <div class="form-group col-md-6 col-12">
                                         <label>Kuantitas<span class="text-danger">*</span></label>
-                                        <input type="number" name="quantity[]" class="form-control total-input" required>
+                                        <input type="number" name="total[]" class="form-control total-input" required>
                                         <div class="invalid-feedback">
                                             Silahkan isi kuantitas
                                         </div>
                                     </div>
                                     <div class="form-group col-12">
-                                        <button type="button" class="btn btn-danger"
-                                            onclick="removeProductInput(this)">Cancel</button>
+                                        <button type="button" class="btn btn-danger" onclick="removeProductInput(this)">Hapus</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="mt-3">
-                        <button type="button" class="btn btn-primary" onclick="addProductInput()">Tambah Input
-                            Produk</button>
+                        <button type="button" class="btn btn-primary" onclick="addProductInput()">Tambah Input Produk</button>
                         <button class="btn btn-success">Buat Invoice</button>
                     </div>
                 </form>
+                
+                
             </div>
         </section>
     
@@ -125,6 +132,9 @@
    });
 }
 
+function removeProductInput(button) {
+        button.closest('.product-input').remove();
+    }
    </script>
 @endsection
 
