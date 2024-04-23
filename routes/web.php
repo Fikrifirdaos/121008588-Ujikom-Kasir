@@ -6,6 +6,7 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\DashboardController;
+use App\Models\Penjualan;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,10 +36,12 @@ Route::middleware(["isLogin"])->group(function () {
 
 
     Route::get("/penjualan", [PenjualanController::class, "index"])->name("penjualan");
+    Route::get("/invoice", [PenjualanController::class, "invoice"])->name("invoice");
     Route::get("/penjualan/create", [PenjualanController::class, "form"])->name("penjualan.create");
     Route::post("/penjualan/invoice", [PenjualanController::class, "createInvoice"])->name("penjualan.invoice");
     Route::post("/penjualan/payment", [PenjualanController::class, "confirmPayment"])->name("penjualan.payment");
-    Route::get("/history", [PenjualanController::class, "paymentHistory"])->name("penjualan.history");
+    Route::get("/penjualan/delete/{id}", [PenjualanController::class, "delete"])->name('penjualan.delete');
+
 
     Route::middleware("isAdmin")->group(function () {
         Route::get("/user", [UserController::class, "index"])->name("user");

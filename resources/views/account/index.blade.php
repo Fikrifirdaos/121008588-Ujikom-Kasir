@@ -35,7 +35,7 @@
                                     <td>
                                         <div class="d-flex px-2">
                                             <div>
-                                                <img src="../assets/img/user.png"
+                                                <img src="../assets/img/user.jpg"
                                                     class="avatar avatar-sm rounded-circle me-2" alt="spotify">
                                             </div>
                                             <div class="my-auto">

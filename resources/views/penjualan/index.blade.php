@@ -23,7 +23,7 @@
                                             Alamat</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                            No Hanphone</th>
+                                            No Handphone</th>
                                         <th
                                             class="text-uppercase text-secondary text-xxs font-weight-bolder text-center opacity-7 ps-2">
                                             tanggal</th>
@@ -34,45 +34,51 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                   
+                                    @foreach ($penjualan as $item)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div>
-                                                    <img src="../assets/img/small-logos/logo-spotify.svg"
+                                                    <img src="../assets/img/money.png"
                                                         class="avatar avatar-sm rounded-circle me-2" alt="spotify">
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm"></h6>
+                                                    {{$item->Pelanggan->name_staff}}
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0"></p>
+                                           {{$item->Pelanggan->address}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            {{$item->Pelanggan->no_hp}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            {{$item->sale_date}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            Rp{{ number_format($item->total, 2, ',', '.') }}
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:;" class="btn text-secondary font-weight-bold text-xs"
+                                                data-bs-toggle="modal" data-bs-target="">
+                                                lihat
+                                            </a>
+                                            <a href="{{route('penjualan.delete', $item->id)}}" class="btn text-secondary font-weight-bold text-xs"
+                                                data-toggle="tooltip" data-original-title="">
+                                                Hapus
+                                            </a>
                                         </td>
 
                                     </tr>
-                                   
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                    @endforeach
                     @else
                     <div class="card-header pb-0">
                         <h6>Penjualan table</h6>
                     </div>
                     <div class="input-group-btn mt-3">
                         <a href="{{route('penjualan.create')}}" class="btn btn-primary mt-3">
-                            Tambah Akun
+                            Tambah
                         </a>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">
@@ -98,32 +104,48 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($penjualan as $item)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2">
                                                 <div>
-                                                    <img src="../assets/img/small-logos/logo-spotify.svg"
+                                                    <img src="../assets/img/money.png"
                                                         class="avatar avatar-sm rounded-circle me-2" alt="spotify">
                                                 </div>
                                                 <div class="my-auto">
-                                                    <h6 class="mb-0 text-sm"> </h6>
+                                                    {{$item->Pelanggan->name_staff}}
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-sm font-weight-bold mb-0"></p>
+                                           {{$item->Pelanggan->address}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            {{$item->Pelanggan->no_hp}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            {{$item->sale_date}}
                                         </td>
                                         <td>
-                                            <span class="text-xs font-weight-bold"></span>
+                                            @foreach ( $detail as $item)
+                                            Rp{{ number_format($item->subtotal, 2, ',', '.') }}
+                                            @endforeach
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="javascript:;" class="btn text-secondary font-weight-bold text-xs"
+                                                data-bs-toggle="modal" data-bs-target="">
+                                                lihat
+                                            </a>
+                                            <a href="{{route('penjualan.delete', $item->id)}}" class="btn text-secondary font-weight-bold text-xs"
+                                                data-toggle="tooltip" data-original-title="">
+                                                Hapus
+                                            </a>
                                         </td>
 
                                     </tr>
+
+                                    
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

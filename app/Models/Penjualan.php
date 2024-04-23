@@ -14,16 +14,13 @@ class Penjualan extends Model
         'pelanggan_id'
     ];
 
-    public function Pelanggan(){
-        return $this->belongsTo(Pelanggans::class);
+    public function detailPenjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class);
     }
 
-    public function DetailPenjualan()
+    public function pelanggan()
     {
-        return $this->hasOne(DetailPenjualan::class);
-    }
-    public function Produk()
-    {
-        return $this->belongsTo(Produks::class);
+        return $this->belongsTo(Pelanggans::class);
     }
 }

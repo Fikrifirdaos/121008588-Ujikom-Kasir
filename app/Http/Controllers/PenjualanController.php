@@ -14,79 +14,83 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        return view('penjualan.index');
+        $detail= DetailPenjualan::all();
+        $penjualan = Penjualan::all();
+        return view("penjualan.index", compact("penjualan","detail"));
     }
+
     
     public function form()
     {
-        return view('penjualan.create');
+        $produk = Produks::all();
+        return view('penjualan.create', compact('produk'));
     }
 
-    public function paymentHistory()
-    {
-        $penjualanTransaction = Penjualan::all();
-        $detailTransaction = DetailPenjualan::all();
-        $logStockOut = Stock::where("status", "out")->get();
-        return view('pages.penjualan.history', compact("detailTransaction", "penjualanTransaction", "logStockOut"));
-    }
 
     public function createInvoice(Request $request)
     {
         $products = [];
-        $codes = $request->code;
-        $quantitys = $request->quantity;
+$name_produk = $request->name_produk;
+$quantitys = $request->quantity;
 
-        foreach ($codes as $index => $code) {
-            $products[] = [
-                "code" => $code,
-                "quantity" => $quantitys[$index],
-            ];
-        }
-        $codesToSearch = array_column($products, 'code');
-        $items = Produks::whereIn('code', $codesToSearch)->get();
+foreach ($name_produk as $index => $name) {
+    $p = Produks::where('name_produk', $name)->first();
+    $products[] = [
+        "name_produk" => $name,
+        "quantity" => $quantitys[$index],
+        "price" => $p['price'],
+        "sub_total" => (int)$p['price'] * (int)$quantitys[$index],
+    ];
+}
 
-        $errorMessages = [];
+$nameToSearch = array_column($products, 'name_produk');
+$items = Produks::whereIn('name_produk', $nameToSearch)->get();
 
-        foreach ($products as $product) {
-            $found = false;
-            foreach ($items as $item) {
-                if ($product["code"] == $item->code) {
-                    $found = true;
-                    if ($product["quantity"] > $item->stock) {
-                        $errorMessages[] = "Stok produk '" . $item->product_name . "' dengan kode '" . $product["code"] . "' tidak mencukupi";
-                    }
-                    break;
-                }
+$errorMessages = [];
+
+foreach ($products as $product) {
+    $found = false;
+    foreach ($items as $item) {
+        if ($product["name_produk"] == $item->name_produk) {
+            $found = true;
+            if ($product["quantity"] > $item->stock) {
+                $errorMessages[] = "Stok produk '" . $item->name_produk . "' tidak mencukupi";
             }
-            if (!$found) {
-                $errorMessages[] = "Produk dengan kode '" . $product["code"] . "' tidak ditemukan";
-            }
+            break;
         }
+    }
+    if (!$found) {
+        $errorMessages[] = "Produk dengan nama '" . $product["name_produk"] . "' tidak ditemukan";
+    }
+}
 
-        if (!empty($errorMessages)) {
-            return back()->with("fail", $errorMessages);
-        }
+if (!empty($errorMessages)) {
+    return back()->with("fail", $errorMessages);
+}
 
-        $name = $request->name;
-        $phone = $request->phone;
-        $address = $request->address;
+$name_staff = $request->name_staff;
+$phone = $request->no_hp;
+$address = $request->address;
 
-        session([
-            "produk" => $products,
-            "pelanggan" => [
-                "name" => $name,
-                "phone" => $phone,
-                "address" => $address
-            ]
-        ]);
+session([
+    "produk" => $products,
+    "pelanggan" => [
+        "name_staff" => $name_staff,
+        "no_hp" => $phone,
+        "address" => $address
+    ]
+]);
 
-        return view("penjualan.invoice", compact(
-            "name",
-            "phone",
-            "address",
-            "products",
-            "items"
-        ));
+// dd($products);
+return view("penjualan.invoice", compact(
+    "name_staff",
+    "phone",
+    "address",
+    "products",
+    "items"
+));
+
+        
     }
 
     public function confirmPayment()
@@ -109,13 +113,13 @@ class PenjualanController extends Controller
 
         if ($customer["address"] == null) {
             $customer = Pelanggans::create([
-                "customer_name" => $customer["name"],
-                "no_phone" => $customer["phone"],
+                "name_staff" => $customer["name_staff"],
+                "no_hp" => $customer["no_phone"],
             ]);
         } else {
             $customer = Pelanggans::create([
-                "customer_name" => $customer["name"],
-                "no_phone" => $customer["phone"],
+                "name_staff" => $customer["name_staff"],
+                "no_hp" => $customer["no_hp"],
                 "address" => $customer["address"]
             ]);
         }
@@ -123,7 +127,7 @@ class PenjualanController extends Controller
         $penjualan = Penjualan::create([
             "pelanggan_id" => $customer->id,
             'sale_date' => now(),
-            'total_price' => $total_price
+            'total' => $total_price
         ]);
 
         foreach ($items as $item) {
@@ -132,26 +136,23 @@ class PenjualanController extends Controller
                     DetailPenjualan::create([
                         'penjualan_id' => $penjualan->id,
                         'produk_id' => $item->id,
-                        'total_product' => $product["quantity"],
+                        'produk_total' => $product["quantity"],
                         'subtotal' => $item->price * $product["quantity"]
                     ]);
 
                     $productUpdate = Produks::find($item->id);
-                    $stock = $productUpdate->stock - $product["quantity"];
-                    $productUpdate->update([
-                        "stock" => $stock
-                    ]);
 
-                    Stock::create([
-                        'user_id' => Auth::user()->id,
-                        'product_id' => $item->id,
-                        'total_stock' => $product["quantity"],
-                        'status' => "out"
-                    ]);
                 }
             }
         }
 
         return redirect()->route("penjualan")->with("success", "Transaksi berhasil!");
+    }
+
+    public function delete(Request $request, $id)
+    {
+        $data = Penjualan::findOrFail($id);
+        $data->delete();
+        return redirect()->route("penjualan");
     }
 }

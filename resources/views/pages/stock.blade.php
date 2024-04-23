@@ -50,7 +50,7 @@
                                         </div>
                                     </td>
                                     <td>
-                                        <p class="text-xs font-weight-bold mb-0">Rp.{{ $item->price }}</p>
+                                        <p class="text-xs font-weight-bold mb-0">Rp{{ number_format($item->price, 2, ',', '.') }}</p>
                                     </td>
                                     <td class="align-middle text-center">
                                         <span class="text-secondary text-xs font-weight-bold">{{$item->stock}}</span>
@@ -65,7 +65,7 @@
                                             Edit
                                         </a>
                                         <a href="{{route('stock.delete', $item->id)}}" class="btn text-secondary font-weight-bold text-xs"
-                                            data-toggle="tooltip" data-original-title="Edit user">
+                                            data-toggle="tooltip" data-original-title="">
                                             Hapus
                                         </a>
                                     </td>
@@ -127,7 +127,7 @@
                                                             class="form-label">Stok</label>
                                                         <input type="text" class="form-control"
                                                             id="exampleFormControlInput1" placeholder=""
-                                                            value="{{$item->stock}}" name="stock">
+                                                             name="stock">
                                                     </div>
                                             </div>
                                             <div class="modal-footer">

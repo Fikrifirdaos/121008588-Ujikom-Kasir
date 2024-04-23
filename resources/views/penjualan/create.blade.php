@@ -70,28 +70,28 @@
                     </div>
                     <div id="productInputs">
                         <div class="card mt-3">
-                            <div class="card-body">
-                                <div class="row product-input">
+                            <div class="row">
                                     <div class="form-group col-md-6 col-12">
-                                        <label>Kode Produk<span class="text-danger">*</span></label>
-                                        <input type="text" name="produk_id[]" class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            Silahkan isi kode produk
-                                        </div>
+                                        <label>Produk<span class="text-danger">*</span></label>
+                                        <select class="form-control" name="name_produk[]" required>
+                                            <option disabled selected>Select Produk</option>
+                                            @foreach ($produk as $item)
+                                                <option value="{{$item->name_produk}}">{{$item->name_produk}}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="form-group col-md-6 col-12">
                                         <label>Kuantitas<span class="text-danger">*</span></label>
-                                        <input type="number" name="total[]" class="form-control total-input" required>
+                                        <input type="number" name="quantity[]" class="form-control total-input" required>
                                         <div class="invalid-feedback">
                                             Silahkan isi kuantitas
                                         </div>
                                     </div>
                                     <div class="form-group col-12">
                                         <button type="button" class="btn btn-danger" onclick="removeProductInput(this)">Hapus</button>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
+                         </div>
                     </div>
                     <div class="mt-3">
                         <button type="button" class="btn btn-primary" onclick="addProductInput()">Tambah Input Produk</button>

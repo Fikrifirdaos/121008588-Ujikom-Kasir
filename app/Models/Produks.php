@@ -15,7 +15,8 @@ class Produks extends Model
         'code'
     ];
 
-    public function detailPenjualan(){
+    public function detailPenjualan()
+    {
         return $this->hasMany(DetailPenjualan::class);
     }
 }
