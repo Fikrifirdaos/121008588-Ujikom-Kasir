@@ -43,23 +43,9 @@
                         <tr class="border-b border-gray-200 hover:bg-gray-100">
                             <td class="py-2 px-3"> - {{ $item['name_produk'] }}</td>
                             <td class="py-2 px-3">
-                                {{-- @foreach ($products as $p)
-                               {{ $p['quantity'] }} 
-                                @endforeach --}}
                                 {{ $item['quantity'] }}
                             </td>
                             <td class="py-2 px-3"> (Rp{{ number_format($item['price'], 2, ',', '.') }})</td>
-                            {{-- <td class="py-2 px-3">
-                                @foreach ($products as $p)
-                                        @if ($p['name_produk'] == $item->name_produk)
-                                            @php
-                                                $price = $p['quantity'] * $item->price;
-                                                $totalPrice += $price;
-                                            @endphp
-                                             (Rp{{ number_format($price, 2, ',', '.') }})
-                                        @endif
-                                    @endforeach
-                            </td> --}}
                             <td class="py-2 px-3"> (Rp{{ number_format($item['sub_total'], 2, ',', '.') }})</td>
                         </tr>
                         @endforeach

@@ -37,6 +37,7 @@ Route::middleware(["isLogin"])->group(function () {
 
     Route::get("/penjualan", [PenjualanController::class, "index"])->name("penjualan");
     Route::get("/invoice", [PenjualanController::class, "invoice"])->name("invoice");
+    Route::get("/penjualan/view/{id}", [PenjualanController::class, "detail"])->name("penjualan.view");
     Route::get("/penjualan/create", [PenjualanController::class, "form"])->name("penjualan.create");
     Route::post("/penjualan/invoice", [PenjualanController::class, "createInvoice"])->name("penjualan.invoice");
     Route::post("/penjualan/payment", [PenjualanController::class, "confirmPayment"])->name("penjualan.payment");

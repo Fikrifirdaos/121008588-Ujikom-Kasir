@@ -14,9 +14,19 @@ class PenjualanController extends Controller
 {
     public function index()
     {
-        $detail= DetailPenjualan::all();
+        $produk = Produks::all();
+        $detail = DetailPenjualan::all();
         $penjualan = Penjualan::all();
         return view("penjualan.index", compact("penjualan","detail"));
+    }
+
+    public function detail($id)
+    {
+        $penjualan =Penjualan::find($id);
+        $pelanggan =Pelanggans::find($id);
+        $detail =DetailPenjualan::where('penjualan_id' ,$id)->get();
+        return view('penjualan.view', compact('penjualan','pelanggan','detail'));
+
     }
 
     
@@ -30,8 +40,8 @@ class PenjualanController extends Controller
     public function createInvoice(Request $request)
     {
         $products = [];
-$name_produk = $request->name_produk;
-$quantitys = $request->quantity;
+        $name_produk = $request->name_produk;
+        $quantitys = $request->quantity;
 
 foreach ($name_produk as $index => $name) {
     $p = Produks::where('name_produk', $name)->first();
@@ -96,18 +106,19 @@ return view("penjualan.invoice", compact(
     public function confirmPayment()
     {
         $products = session("produk");
-        $codesToSearch = array_column($products, 'code');
-        $items = Produks::whereIn('code', $codesToSearch)->get();
-        $total_price = 0;
+        // $codesToSearch = array_column($products, 'code');
+        // $items = Produks::whereIn('name_produk', $codesToSearch)->get();
+        // $total_price = 0;
 
-        foreach ($items as $item) {
+        // dd($products);
+        $total_price = 0;
+        // foreach ($products as $item) {
             foreach ($products as $product) {
-                if ($product["code"] == $item->code) {
-                    $price = $product["quantity"] * $item->price;
-                    $total_price += $price;
-                }
+                // if ($product["name_produk"] == $item->code) {
+                    $total_price += $product['sub_total'];
+                // }
             }
-        }
+        // }
 
         $customer = session("pelanggan");
 
@@ -130,21 +141,25 @@ return view("penjualan.invoice", compact(
             'total' => $total_price
         ]);
 
-        foreach ($items as $item) {
+        // foreach ($items as $item) {
             foreach ($products as $product) {
-                if ($product["code"] == $item->code) {
+                $produk = Produks::where('name_produk', $product['name_produk'])->first();
+                // if ($product["code"] == $item->code) {
                     DetailPenjualan::create([
                         'penjualan_id' => $penjualan->id,
-                        'produk_id' => $item->id,
+                        'produk_id' => $produk->id,
                         'produk_total' => $product["quantity"],
-                        'subtotal' => $item->price * $product["quantity"]
+                        'subtotal' => $product['sub_total']
                     ]);
 
-                    $productUpdate = Produks::find($item->id);
+                    // $productUpdate = Produks::find($produkId);
 
-                }
+                    $stok = $produk['stock'] - $product["quantity"];
+
+                    $produk->update(['stock' => $stok]);
+                // }
             }
-        }
+        // }
 
         return redirect()->route("penjualan")->with("success", "Transaksi berhasil!");
     }
